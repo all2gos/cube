@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+import random
 
 class Cube:
     def __init__(self):
@@ -90,16 +91,51 @@ class Cube:
             ax.set_xlim(0, 18)
             ax.set_ylim(0, 3)
 
-            # Pozycje ścian w rozłożonym układzie
-            flat_order = [0, 1, 2, 3, 4, 5]  # Kolejność: W, G, R, B, O, Y
+            order_dict = {
+                'W': 0,
+                'G': 1,
+                'R': 2,
+                'B': 3,
+                'O': 4,
+                'Y': 5
+            }
+            
+            flat_list = [
+                ['W', 'G', 'R', 'B', 'O', 'Y'],
+                ['W', 'O', 'G', 'R', 'B', 'Y'],
+                ['W', 'B', 'O', 'G', 'R', 'Y'],
+                ['W', 'R', 'B', 'O', 'G', 'Y'], 
+                ['G', 'Y', 'R', 'W', 'O', 'B'],
+                ['G', 'O', 'Y', 'R', 'W', 'B'],
+                ['G', 'W', 'O', 'Y', 'R', 'B'],
+                ['G', 'R', 'W', 'O', 'Y', 'B'],
+                ['Y', 'B', 'R', 'G', 'O', 'W'],
+                ['Y', 'O', 'B', 'R', 'G', 'W'],
+                ['Y', 'G', 'O', 'B', 'R', 'W'],
+                ['Y', 'R', 'G', 'O', 'B', 'W'],
+                ['B', 'W', 'R', 'Y', 'O', 'G'],
+                ['B', 'O', 'W', 'R', 'Y', 'G'],
+                ['B', 'Y', 'O', 'W', 'R', 'G'],
+                ['B', 'R', 'Y', 'O', 'W', 'G'],
+                ['R', 'G', 'Y', 'B', 'W', 'O'],
+                ['R', 'W', 'G', 'Y', 'B', 'O'],
+                ['R', 'B', 'W', 'G', 'Y', 'O'],
+                ['R', 'Y', 'B', 'W', 'G', 'O'],
+                ['O', 'G', 'W', 'B', 'Y', 'R'],
+                ['O', 'Y', 'G', 'W', 'B', 'R'],
+                ['O', 'B', 'Y', 'G', 'W', 'R'],
+                ['O', 'W', 'B', 'Y', 'G', 'R'],
+                ]
+            
+            random_orientation = random.choice(flat_list)
             x_offset = 0
-
-            # Rysowanie rozłożonej siatki
-            for face_idx in flat_order:
-                face = self.cube[face_idx]
+            
+            for face_color in random_orientation:
+                face_idx = order_dict[face_color]  # Znajdź indeks ściany według koloru
+                face = self.cube[face_idx]  # Pobierz dane ściany
                 for i in range(3):
                     for j in range(3):
-                        color = color_map[face[i, j][0]]
+                        color = color_map[face[i, j][0]]  # Znajdź kolor komórki
                         rect = patches.Rectangle(
                             (x_offset + j, 2 - i), 
                             1, 1, 
@@ -223,7 +259,7 @@ cube = Cube()
 cube.do(cube.process_sequence("U' B' U2 B2 R2 F2 R U2 R F2 L' F2 L2 U2 B D' F2 L2 F L' U"))
 #cube.process_sequence("RURRRUUURRRFRRUUURRRUUURURRRFFF")
 #cube.do('UU')
-cube.visualize(layout='classic')
+cube.visualize(layout='flat')
 
 
 
