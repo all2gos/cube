@@ -90,7 +90,7 @@ class Cube:
 
         elif layout == 'flat':
             # Rozłożona siatka 18x3
-            fig, ax = plt.subplots(figsize=(x, y))             
+            fig, ax = plt.subplots(figsize=(x, y), dpi=100)             
             ax.set_xlim(0, 18)
             ax.set_ylim(0, 3)
             ax.axis('off')
