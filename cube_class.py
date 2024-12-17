@@ -6,7 +6,7 @@ import random
 
 class Cube:
     def __init__(self):
-        # Tworzenie ułożonej kostki
+        #creating solved Rubik's cube object
         self.colors = ['W', 'G', 'R', 'B', 'O', 'Y']  # Biały, Zielony, Czerwony, Niebieski, Pomarańczowy, Żółty
         self.cube = self.solved_cube()
 
@@ -247,19 +247,19 @@ class Cube:
             self.rotate('W') #powrót rotacją kostki
 
 
-cube = Cube()
+if __name__ == '__main__':
+    cube = Cube()
 
-#perm U
-#cube.do('RFFFRFRFRFFFRRRFFFRR')
-#cube.do('RUUURURURUUURRRUUURR')
-#cube.do('LBBBLBLBLBBBLLLBBBLL')
+    #perm U
+    #cube.do('RFFFRFRFRFFFRRRFFFRR')
+    #cube.do('RUUURURURUUURRRUUURR')
+    #cube.do('LBBBLBLBLBBBLLLBBBLL')
 
-
-#perm T
-cube.do(cube.process_sequence("U' B' U2 B2 R2 F2 R U2 R F2 L' F2 L2 U2 B D' F2 L2 F L' U"))
-#cube.process_sequence("RURRRUUURRRFRRUUURRRUUURURRRFFF")
-#cube.do('UU')
-cube.visualize(layout='flat')
+    #perm T
+    cube.do(cube.process_sequence("U' B' U2 B2 R2 F2 R U2 R F2 L' F2 L2 U2 B D' F2 L2 F L' U"))
+    #cube.process_sequence("RURRRUUURRRFRRUUURRRUUURURRRFFF")
+    #cube.do('UU')
+    cube.visualize(layout='flat')
 
 
 
