@@ -6,7 +6,7 @@ import random
 
 class Cube:
     def __init__(self):
-        #creating solved Rubik's cube object
+        # Tworzenie ułożonej kostki
         self.colors = ['W', 'G', 'R', 'B', 'O', 'Y']  # Biały, Zielony, Czerwony, Niebieski, Pomarańczowy, Żółty
         self.cube = self.solved_cube()
 
@@ -38,11 +38,13 @@ class Cube:
             'Y': 'yellow'
         }
 
-        fig, ax = plt.subplots(figsize=(8, 8))
-        ax.axis('off')
+
 
         if layout == 'classic':
             # Klasyczny układ siatki
+
+            fig, ax = plt.subplots(figsize=(8, 8))
+            ax.axis('off')
             ax.set_xlim(0, 12)
             ax.set_ylim(0, 9)
 
@@ -87,8 +89,8 @@ class Cube:
 
 
         elif layout == 'flat':
-            #flat, 18x3 grid for CNN purposes
-            fig, ax = plt.subplots(figsize=(18,3))
+            # Rozłożona siatka 18x3
+            fig, ax = plt.subplots(figsize=(18, 3))             
             ax.set_xlim(0, 18)
             ax.set_ylim(0, 3)
             ax.axis('off')
@@ -146,8 +148,7 @@ class Cube:
                         )
                         ax.add_patch(rect)
                 x_offset += 3  # Przesunięcie na następną sekcję
-        plt.subplots_adjust(left=0, right=1, top=1, bottom=0)  # Usuń marginesy
-        plt.gca().set_aspect('equal', adjustable='box') #equalize stickers sides
+
         plt.show()
 
 
@@ -250,19 +251,19 @@ class Cube:
             self.rotate('W') #powrót rotacją kostki
 
 
-if __name__ == '__main__':
-    cube = Cube()
+cube = Cube()
 
-    #perm U
-    #cube.do('RFFFRFRFRFFFRRRFFFRR')
-    #cube.do('RUUURURURUUURRRUUURR')
-    #cube.do('LBBBLBLBLBBBLLLBBBLL')
+#perm U
+#cube.do('RFFFRFRFRFFFRRRFFFRR')
+#cube.do('RUUURURURUUURRRUUURR')
+#cube.do('LBBBLBLBLBBBLLLBBBLL')
 
-    #perm T
-    cube.do(cube.process_sequence("U' B' U2 B2 R2 F2 R U2 R F2 L' F2 L2 U2 B D' F2 L2 F L' U"))
-    #cube.process_sequence("RURRRUUURRRFRRUUURRRUUURURRRFFF")
-    #cube.do('UU')
-    cube.visualize(layout='flat')
+
+#perm T
+cube.do(cube.process_sequence("U' B' U2 B2 R2 F2 R U2 R F2 L' F2 L2 U2 B D' F2 L2 F L' U"))
+#cube.process_sequence("RURRRUUURRRFRRUUURRRUUURURRRFFF")
+#cube.do('UU')
+cube.visualize(layout='flat')
 
 
 
