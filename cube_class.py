@@ -87,9 +87,11 @@ class Cube:
 
 
         elif layout == 'flat':
-            # Rozłożona siatka 18x3
+            #flat, 18x3 grid for CNN purposes
+            fig, ax = plt.subplots(figsize=(18,3))
             ax.set_xlim(0, 18)
             ax.set_ylim(0, 3)
+            ax.axis('off')
 
             order_dict = {
                 'W': 0,
