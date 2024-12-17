@@ -22,7 +22,7 @@ class Cube:
         return '\n'.join([f"{self.cube[i]}" for i in range(6)])
 
 
-    def visualize(self, layout='classic'):
+    def visualize(self, x, y, layout='classic', save_fig_name=''):
         """
         Wizualizuje kostkę w jednym z dwóch układów:
         - 'classic': siatka kostki (góra, boki, dół)
@@ -90,7 +90,7 @@ class Cube:
 
         elif layout == 'flat':
             # Rozłożona siatka 18x3
-            fig, ax = plt.subplots(figsize=(18, 3))             
+            fig, ax = plt.subplots(figsize=(x, y))             
             ax.set_xlim(0, 18)
             ax.set_ylim(0, 3)
             ax.axis('off')
@@ -149,7 +149,10 @@ class Cube:
                         ax.add_patch(rect)
                 x_offset += 3  # Przesunięcie na następną sekcję
 
-        plt.show()
+        if save_fig_name:
+            plt.savefig(f'{save_fig_name}.png')        
+        else:
+            plt.show()
 
 
     def rotate(self, front_site):
