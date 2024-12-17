@@ -266,7 +266,7 @@ cube = Cube()
 cube.do(cube.process_sequence("U' B' U2 B2 R2 F2 R U2 R F2 L' F2 L2 U2 B D' F2 L2 F L' U"))
 #cube.process_sequence("RURRRUUURRRFRRUUURRRUUURURRRFFF")
 #cube.do('UU')
-cube.visualize(layout='flat')
+cube.visualize(layout='flat', x=18, y=3)
 
 
 
