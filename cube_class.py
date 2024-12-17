@@ -151,8 +151,6 @@ class Cube:
 
         if save_fig_name:
             plt.savefig(f'{save_fig_name}.png', bbox_inches='tight', pad_inches=0)
-        else:
-            plt.show()
 
 
     def rotate(self, front_site):
@@ -179,7 +177,7 @@ class Cube:
 
     def process_sequence(self, seq):
         seq = seq.split()  # Rozdziela sekwencję na listę ruchów
-        print(f"Input sequence: {seq}")
+        #print(f"Input sequence: {seq}")
         s = ""
 
         for m in seq:
@@ -190,7 +188,7 @@ class Cube:
             else:  # Pojedynczy ruch (np. "L")
                 s += m
 
-        print(f"Output sequence: {s}")
+        #print(f"Output sequence: {s}")
         return s
     
     def do(self, seq):
