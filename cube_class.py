@@ -28,7 +28,7 @@ class Cube:
         - 'classic': siatka kostki (góra, boki, dół)
         - 'flat': rozłożona siatka 18x3
         """
-        # Mapowanie liter na kolory
+        #mapping letters to colors 
         color_map = {
             'W': 'white',
             'G': 'green',
