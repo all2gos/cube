@@ -144,7 +144,8 @@ class Cube:
                         )
                         ax.add_patch(rect)
                 x_offset += 3  # Przesunięcie na następną sekcję
-
+        plt.subplots_adjust(left=0, right=1, top=1, bottom=0)  # Usuń marginesy
+        plt.gca().set_aspect('equal', adjustable='box') #equalize stickers sides
         plt.show()
 
 
