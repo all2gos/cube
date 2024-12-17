@@ -150,7 +150,7 @@ class Cube:
                 x_offset += 3  # Przesunięcie na następną sekcję
 
         if save_fig_name:
-            plt.savefig(f'{save_fig_name}.png')        
+            plt.savefig(f'{save_fig_name}.png', bbox_inches='tight', pad_inches=0)
         else:
             plt.show()
 
