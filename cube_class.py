@@ -1,4 +1,6 @@
-#stworzyc obiekt cube, ktory bedzie przyjmowac informacje o scramble'u i bedzie mozna przy jego pomocy poprzez wbudowane w niego metody uzyskiwac rozne informacje o stanie kostki po wymieszaniu
+'''Code that creates an object 'cube', which takes in information about a scramble. 
+Using various built-in methods of this object, you can obtain information about the state of the cube after applying the scramble.'''
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -6,15 +8,15 @@ import random
 
 class Cube:
     def __init__(self):
-        # Tworzenie ułożonej kostki
-        self.colors = ['W', 'G', 'R', 'B', 'O', 'Y']  # Biały, Zielony, Czerwony, Niebieski, Pomarańczowy, Żółty
+        #creating solved Rubik's cube object
+        self.colors = ['W', 'G', 'R', 'B', 'O', 'Y']  #defining side colors: white, green, red, blue, orange, yellow
         self.cube = self.solved_cube()
 
 
     def solved_cube(self):
-        #"ułozona" kostka, inicjacja głównego, trójwymiarowego obiektu
-        #każda ściana 3x3 wypełniona literami: W, G, R, B, O, Y
-        colors = ['W', 'G', 'R', 'B', 'O', 'Y']  # Kolejność ścian
+        #'solved' cube: initialization of the main three-dimensional object
+        #each side is a 3x3 grid containing letters: W, G, R, B, O, Y
+        colors = ['W', 'G', 'R', 'B', 'O', 'Y']  #the order of sides 
         cube = np.array([np.array([f"{color}{i}" for i in range(1, 10)]).reshape(3, 3) for color in colors])
         return cube
     
@@ -24,11 +26,11 @@ class Cube:
 
     def visualize(self, x, y, layout='classic', save_fig_name=''):
         """
-        Wizualizuje kostkę w jednym z dwóch układów:
-        - 'classic': siatka kostki (góra, boki, dół)
-        - 'flat': rozłożona siatka 18x3
+        Visualizes the cube in one of two layouts:
+        - 'classic': cube net (top, sides, bottom)
+        - 'flat': unfolded 18x3 grid
         """
-        # Mapowanie liter na kolory
+        #mapping letters to colors 
         color_map = {
             'W': 'white',
             'G': 'green',
@@ -41,33 +43,33 @@ class Cube:
 
 
         if layout == 'classic':
-            # Klasyczny układ siatki
 
+            #classic grid layout 
             fig, ax = plt.subplots(figsize=(8, 8))
             ax.axis('off')
             ax.set_xlim(0, 12)
             ax.set_ylim(0, 9)
 
-            # Kolejność rozmieszczenia ścian na siatce
+            #the order of the arrangement of sides on the grid
             positions = {
-                0: (3, 6),  # Góra (biała)
-                4: (0, 3),  # Lewa (zielona)
-                1: (3, 3),  # Przód (czerwona)
-                2: (6, 3),  # Prawa (niebieska)
-                3: (9, 3),  # Tył (pomarańczowa)
-                5: (3, 0)   # Dół (żółta)
+                0: (3, 6),  #top (white)
+                4: (0, 3),  #left (green)
+                1: (3, 3),  #front (red)
+                2: (6, 3),  #right (blue)
+                3: (9, 3),  #back (orange)
+                5: (3, 0)   #bottom (yellow)
             }
 
-            # Rysowanie każdej ściany
+            #drawing each side:
             for face_idx, (x_offset, y_offset) in positions.items():
                 face = self.cube[face_idx]
                 for i in range(3):
                     for j in range(3):
-                        # Pobierz kolor i tekst z komórki
+                        #get the color and text from a side:
                         cell_value = face[i, j]
                         color = color_map[cell_value[0]]
 
-                        # Rysowanie naklejki
+                        #drawing each sticker:
                         rect = patches.Rectangle(
                             (x_offset + j, y_offset + 2 - i), 
                             1, 1, 
@@ -76,20 +78,20 @@ class Cube:
                         )
                         ax.add_patch(rect)
 
-                        # Dodanie tekstu na środku naklejki
+                        #adding text in the center of a sticker:
                         ax.text(
-                            x_offset + j + 0.5,         # Środek naklejki w osi X
-                            y_offset + 2 - i + 0.5,     # Środek naklejki w osi Y
-                            cell_value,                 # Tekst do wyświetlenia
-                            color='black' if color != 'black' else 'white',  # Kontrastujący kolor tekstu
-                            ha='center',                # Wyrównanie poziome
-                            va='center',                # Wyrównanie pionowe
-                            fontsize=10                 # Rozmiar czcionki
+                            x_offset + j + 0.5,         #the center of the sticker on the X-axis
+                            y_offset + 2 - i + 0.5,     #the center of the sticker on the Y-axis
+                            cell_value,                 #text to display
+                            color='black' if color != 'black' else 'white',  #contrasting text color
+                            ha='center',                #horizontal alignment
+                            va='center',                #vertical alignment
+                            fontsize=10                 #font size 
                         )
 
 
         elif layout == 'flat':
-            # Rozłożona siatka 18x3
+            #flat 18x3 grid for CNN purposes
             fig, ax = plt.subplots(figsize=(x, y), dpi=100)             
             ax.set_xlim(0, 18)
             ax.set_ylim(0, 3)
@@ -135,11 +137,11 @@ class Cube:
             x_offset = 0
             
             for face_color in random_orientation:
-                face_idx = order_dict[face_color]  # Znajdź indeks ściany według koloru
-                face = self.cube[face_idx]  # Pobierz dane ściany
+                face_idx = order_dict[face_color]  #find the index of the side by color
+                face = self.cube[face_idx]  #get info about the side
                 for i in range(3):
                     for j in range(3):
-                        color = color_map[face[i, j][0]]  # Znajdź kolor komórki
+                        color = color_map[face[i, j][0]]  #find color of the sticker 
                         rect = patches.Rectangle(
                             (x_offset + j, 2 - i), 
                             1, 1, 
@@ -147,17 +149,15 @@ class Cube:
                             edgecolor='black'
                         )
                         ax.add_patch(rect)
-                x_offset += 3  # Przesunięcie na następną sekcję
+                x_offset += 3  #moving to the next section
 
         if save_fig_name:
             plt.savefig(f'{save_fig_name}.png', bbox_inches='tight', pad_inches=0)
 
 
     def rotate(self, front_site):
-        #obrot kostki w taki sposob, ze podana sciana jest na froncie
-
-        #ciekawe to jest bardzo ze potrzebne sa dwa typy rotacji i jeden typ ruchu zeby zdefiniowac wszystkie ruchy na kostce, doslownie wszystkie,bo mozna tez z powodzeniem
-        #definiowac tak ruchy sciana srodkowa np ale na nasze potrzeby nie jest to konieczne
+        #rotate the cube so that the given side is at the front
+        #we've found out that two types of rotations and one type of movement are enough to define all the moves on the cube
         temp = self.cube.copy()
         if front_site == 'W':
             self.cube[0] = np.rot90(temp[3],2)
@@ -176,32 +176,30 @@ class Cube:
             self.cube[5] = np.rot90(temp[5],1)
 
     def process_sequence(self, seq):
-        seq = seq.split()  # Rozdziela sekwencję na listę ruchów
-        #print(f"Input sequence: {seq}")
+        seq = seq.split()  # split the sequence of moves into list of separate moves
         s = ""
 
         for m in seq:
-            if len(m) == 2 and m[1] == '2':  # Sprawdza, czy ruch to np. "L2"
-                s += m[0] * 2  # Dodaje literę dwukrotnie
-            elif len(m) == 2 and m[1] == "'":  # Sprawdza, czy ruch to np. "F'"
-                s += m[0] * 3  # Dodaje literę trzykrotnie
-            else:  # Pojedynczy ruch (np. "L")
+            if len(m) == 2 and m[1] == '2':  #checks if the move is, for example, "L2"
+                s += m[0] * 2  #adds the letter twice
+            elif len(m) == 2 and m[1] == "'":  #checks if the move is, for example, "F'"
+                s += m[0] * 3  #adds the letter three times 
+            else:  #single move, for example, "L"
                 s += m
 
-        #print(f"Output sequence: {s}")
         return s
     
     def do(self, seq):
-        #program wykonuje podana sekwencje na kostce, ale najpierw trzeba ja obrobic
+        #the program performs the given sequence on the cube, but it first needs to process it
 
         for m in seq:
             self.move(m)
 
 
     def front_move(self):
-        #ruch sciana frontowa zgodnie z ruchem wskazowek zegara
+        #move the front side clockwise
         temp = self.cube.copy()  
-        # cube[sciana, wiersz, kolumna]
+        #cube[side, row, column]
         self.cube[0][2, :] = temp[4][:, 2][::-1]  
         self.cube[1] = np.rot90(temp[1],-1)  
         self.cube[2][:, 0] = temp[0,2,0], temp[0,2,1],temp[0,2,2]
@@ -209,19 +207,19 @@ class Cube:
         self.cube[5][0, :] = temp[2,2,0],temp[2,1,0],temp[2,0,0]  
 
     def move(self, move_type):
-        #definiowanie procedury wykonania każdego ruchu
+        #defining the procedure for executing each move
 
         if move_type == 'R':
-            self.rotate('R') #obrocenie kostki zeby czerwona sciana byla z przodu
-            self.front_move() #wykonanie ruchu
-            self.rotate('R') #powrót rotacją kostki
-            self.rotate('R') #powrót rotacją kostki
-            self.rotate('R') #powrót rotacją kostki
+            self.rotate('R') #rotating the cube so that the red side is at the front
+            self.front_move() #performing the move
+            self.rotate('R') #rotating the cube back
+            self.rotate('R') #rotating the cube back
+            self.rotate('R') #rotating the cube back
     
         elif move_type == 'B':
             self.rotate('R')
             self.rotate('R')
-            self.front_move() #wykonanie ruchu
+            self.front_move() #executing the move
             self.rotate('R')
             self.rotate('R')
 
@@ -229,42 +227,45 @@ class Cube:
             self.rotate('R')
             self.rotate('R')
             self.rotate('R')
-            self.front_move() #wykonanie ruchu
+            self.front_move() #executing the move
             self.rotate('R')
 
         elif move_type == 'F':
-            #ruch podstawowy, na podstawie rotacji i tego ruchu mozna zdefiniowac kazdy inny ruch
-            self.front_move() #po prostu wykonanie ruchu
+            #basic move
+            #based on rotation and this move, you can define any other move
+            self.front_move() #executing the move
 
         elif move_type == 'U':
-            self.rotate('W') #obrocenie kostki zeby biala sciana byla z przodu
-            self.front_move() #wykonanie ruchu
-            self.rotate('W') #powrót rotacją kostki
-            self.rotate('W') #powrót rotacją kostki
-            self.rotate('W') #powrót rotacją kostki
+            self.rotate('W') #rotating the cube so that the white side is at the front
+            self.front_move() #executing the move
+            self.rotate('W') #rotating the cube back
+            self.rotate('W') #rotating the cube back
+            self.rotate('W') #rotating the cube back
 
 
         elif move_type == 'D':
-            self.rotate('W') #obrocenie kostki zeby biala sciana byla z przodu
-            self.rotate('W') #powrót rotacją kostki
-            self.rotate('W') #powrót rotacją kostki
-            self.front_move() #wykonanie ruchu
-            self.rotate('W') #powrót rotacją kostki
+            self.rotate('W') #rotating the cube so that the white side is at the front
+            self.rotate('W') #rotating the cube back
+            self.rotate('W') #rotating the cube back
+            self.front_move() #executing the move
+            self.rotate('W') #rotating the cube back
 
 
-cube = Cube()
 
-#perm U
-#cube.do('RFFFRFRFRFFFRRRFFFRR')
-#cube.do('RUUURURURUUURRRUUURR')
-#cube.do('LBBBLBLBLBBBLLLBBBLL')
+if __name__ == '__main__': #checks if the script is executed as the main program
+    cube = Cube() #creates an instance of the Cube class
 
+    #perm U
+    #cube.do('RFFFRFRFRFFFRRRFFFRR')
+    #cube.do('RUUURURURUUURRRUUURR')
+    #cube.do('LBBBLBLBLBBBLLLBBBLL')
 
-#perm T
-cube.do(cube.process_sequence("U' B' U2 B2 R2 F2 R U2 R F2 L' F2 L2 U2 B D' F2 L2 F L' U"))
-#cube.process_sequence("RURRRUUURRRFRRUUURRRUUURURRRFFF")
-#cube.do('UU')
-cube.visualize(layout='flat', x=18, y=3)
+    #perm T
+    cube.do(cube.process_sequence("U' B' U2 B2 R2 F2 R U2 R F2 L' F2 L2 U2 B D' F2 L2 F L' U"))
+    #cube.process_sequence("RURRRUUURRRFRRUUURRRUUURURRRFFF")
+    #cube.do('UU')
+    cube.visualize(layout='flat', x=18, y=3)
+
 
 
 
