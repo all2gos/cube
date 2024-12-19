@@ -24,7 +24,7 @@ class Cube:
         return '\n'.join([f"{self.cube[i]}" for i in range(6)])
 
 
-    def visualize(self, layout='classic'):
+    def visualize(self, x, y, layout='classic', save_fig_name=''):
         """
         Visualizes the cube in one of two layouts:
         - 'classic': cube net (top, sides, bottom)
@@ -40,11 +40,13 @@ class Cube:
             'Y': 'yellow'
         }
 
-        fig, ax = plt.subplots(figsize=(8, 8))
-        ax.axis('off')
+
 
         if layout == 'classic':
+
             #classic grid layout 
+            fig, ax = plt.subplots(figsize=(8, 8))
+            ax.axis('off')
             ax.set_xlim(0, 12)
             ax.set_ylim(0, 9)
 
@@ -89,8 +91,8 @@ class Cube:
 
 
         elif layout == 'flat':
-            #flat, 18x3 grid for CNN purposes
-            fig, ax = plt.subplots(figsize=(18,3))
+            #flat 18x3 grid for CNN purposes
+            fig, ax = plt.subplots(figsize=(x, y), dpi=100)             
             ax.set_xlim(0, 18)
             ax.set_ylim(0, 3)
             ax.axis('off')
@@ -149,12 +151,12 @@ class Cube:
                         ax.add_patch(rect)
                 x_offset += 3  #moving to the next section
 
-        plt.show()
+        if save_fig_name:
+            plt.savefig(f'{save_fig_name}.png', bbox_inches='tight', pad_inches=0)
 
 
     def rotate(self, front_site):
         #rotate the cube so that the given side is at the front
-
         #we've found out that two types of rotations and one type of movement are enough to define all the moves on the cube
         temp = self.cube.copy()
         if front_site == 'W':
@@ -174,8 +176,7 @@ class Cube:
             self.cube[5] = np.rot90(temp[5],1)
 
     def process_sequence(self, seq):
-        seq = seq.split()  #splits the sequence into a list of moves
-        print(f"Input sequence: {seq}")
+        seq = seq.split()  # split the sequence of moves into list of separate moves
         s = ""
 
         for m in seq:
@@ -186,7 +187,6 @@ class Cube:
             else:  #single move, for example, "L"
                 s += m
 
-        print(f"Output sequence: {s}")
         return s
     
     def do(self, seq):
@@ -251,6 +251,7 @@ class Cube:
             self.rotate('W') #rotating the cube back
 
 
+
 if __name__ == '__main__': #checks if the script is executed as the main program
     cube = Cube() #creates an instance of the Cube class
 
@@ -263,4 +264,10 @@ if __name__ == '__main__': #checks if the script is executed as the main program
     cube.do(cube.process_sequence("U' B' U2 B2 R2 F2 R U2 R F2 L' F2 L2 U2 B D' F2 L2 F L' U"))
     #cube.process_sequence("RURRRUUURRRFRRUUURRRUUURURRRFFF")
     #cube.do('UU')
-    cube.visualize(layout='flat')
+    cube.visualize(layout='flat', x=18, y=3)
+
+
+
+
+
+
