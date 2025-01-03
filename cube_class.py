@@ -217,7 +217,6 @@ class Cube:
             front center color: G5
             back center color: B5
             '''
-
             edge_top_layer_1 = (self.cube[0, 0, 1], self.cube[3, 0, 1]) #for not scrambled cube: yellow/blue
             edge_top_layer_2 = (self.cube[0, 1, 0], self.cube[4, 0, 1]) #yellow/red
             edge_top_layer_3 = (self.cube[0, 2, 1], self.cube[1, 0, 1]) #yellow/green
@@ -233,41 +232,35 @@ class Cube:
             edge_bottom_layer_3 = (self.cube[5, 0, 1], self.cube[1, 2, 1]) #white/green
             edge_bottom_layer_4 = (self.cube[5, 1, 2], self.cube[2, 2, 1]) #white/orange
 
-            edges_top_bottom = [edge_top_layer_1, edge_top_layer_2, edge_top_layer_3, edge_top_layer_4, edge_bottom_layer_1, edge_bottom_layer_2, edge_bottom_layer_3, edge_bottom_layer_4]
-            edges_middle = [edge_middle_layer_1, edge_middle_layer_2, edge_middle_layer_3, edge_middle_layer_4]
-
-            oe_top_bottom_green_front = 0
-            for edge in edges_top_bottom:
+            top_bottom_edges = [edge_top_layer_1, edge_top_layer_2, edge_top_layer_3, edge_top_layer_4, edge_bottom_layer_1, edge_bottom_layer_2, edge_bottom_layer_3, edge_bottom_layer_4]
+            middle_edges = [edge_middle_layer_1, edge_middle_layer_2, edge_middle_layer_3, edge_middle_layer_4]
+            oe_green_front = 0
+            oe_green_front_white_only = 0
+            for edge in top_bottom_edges:
                 if any('Y' in element or 'W' in element for element in edge):
-                    if 'Y' in edge[0] or 'W' in edge[0]:
-                    oe_top_bottom_green_front += 1
-                elif any('G' in element or 'B' in element for element in edge):
-                    if 'G' in edge[0] or 'B' in edge[0]:
-                    oe_top_bottom_green_front += 1
-
-            oe_middle_green_front = 0
-            for edge in edges_middle:
+                    important_sticker = edge[0] if 'Y' in edge[0] or 'W' in edge[0] else edge[1]
+                    if important_sticker in self.cube[0] or important_sticker in self.cube[5]:
+                        oe_green_front += 1
+                        if 'W' in important_sticker:
+                            oe_green_front_white_only += 1
+                else:
+                    important_sticker = edge[0] if 'G' in edge[0] or 'B' in edge[0] else edge[1]
+                    if important_sticker in self.cube[0] or important_sticker in self.cube[5]:
+                        oe_green_front += 1
+            for edge in middle_edges:
                 if any('Y' in element or 'W' in element for element in edge):
-                    if 'Y' in edge[0] or 'W' in edge[0]:
-                        oe_middle_green_front += 1
-                elif any('G' in element or 'B' in element for element in edge):
-                    if 'G' in edge[0] or 'B' in edge[0]:
-                    oe_middle_green_front += 1
+                    important_sticker = edge[0] if 'Y' in edge[0] or 'W' in edge[0] else edge[1]
+                    if important_sticker in self.cube[1] or important_sticker in self.cube[3]:
+                        oe_green_front += 1
+                        if 'W' in important_sticker:
+                            oe_green_front_white_only += 1
+                else:
+                    important_sticker = edge[0] if 'G' in edge[0] or 'B' in edge[0] else edge[1]
+                    if important_sticker in self.cube[1] or important_sticker in self.cube[3]:
+                        oe_green_front += 1
 
-            sum_oe_green_front = oe_top_bottom_green_front + oe_middle_green_front
-            oriented_edges_list.append(sum_oe_green_front)
-
-            oe_white_sticker_green_front = 0
-            for edge in edges_top_bottom:
-                if any('W' in element for element in edge):
-                    if 'W' in edge[0]:
-                        oe_white_sticker_green_front += 1
-            for edge in edges_middle:
-                if any('W' in element for element in edge):
-                    if 'W' in edge[0]:
-                        oe_white_sticker_green_front += 1
-
-            oriented_edges_list.append(oe_white_sticker_green_front)
+            oriented_edges_list.append(oe_green_front)
+            oriented_edges_list.append(oe_green_front_white_only)
 
             #get to the orientation: white bottom, yellow top, red front
             self.rotate('R') 
@@ -279,44 +272,43 @@ class Cube:
             front center color: R5
             back center color: O5
             '''
-
-            oe_top_bottom_red_front = 0
-            for edge in edges_top_bottom:
+            
+            oe_red_orange = 0
+            oe_red_orange_white_only = 0
+            for edge in top_bottom_edges:
                 if any('Y' in element or 'W' in element for element in edge):
-                    if 'Y' in edge[0] or 'W' in edge[0]:
-                    oe_top_bottom_red_front += 1
-                elif any('R' in element or 'O' in element for element in edge):
-                    if 'R' in edge[0] or 'O' in edge[0]:
-                    oe_top_bottom_red_front += 1
-
-            oe_middle_red_front = 0
-            for edge in edges_middle:
+                    important_sticker = edge[0] if 'Y' in edge[0] or 'W' in edge[0] else edge[1]
+                    if important_sticker in self.cube[0] or important_sticker in self.cube[5]:
+                        oe_red_orange += 1
+                        if 'W' in important_sticker:
+                            oe_red_orange_white_only += 1
+                else:
+                    important_sticker = edge[0] if 'O' in edge[0] or 'R' in edge[0] else edge[1]
+                    if important_sticker in self.cube[0] or important_sticker in self.cube[5]:
+                        oe_red_orange += 1
+            for edge in middle_edges:
                 if any('Y' in element or 'W' in element for element in edge):
-                    if 'Y' in edge[0] or 'W' in edge[0]:
-                        oe_middle_red_front += 1
-                elif any('R' in element or 'O' in element for element in edge):
-                    if 'R' in edge[0] or 'O' in edge[0]:
-                    oe_middle_red_front += 1
+                    important_sticker = edge[0] if 'Y' in edge[0] or 'W' in edge[0] else edge[1]
+                    if important_sticker in self.cube[1] or important_sticker in self.cube[3]:
+                        oe_red_orange += 1
+                        if 'W' in important_sticker:
+                            oe_red_orange_white_only += 1
+                else:
+                    important_sticker = edge[0] if 'O' in edge[0] or 'R' in edge[0] else edge[1]
+                    if important_sticker in self.cube[1] or important_sticker in self.cube[3]:
+                        oe_red_orange += 1
 
-            sum_oe_red_front = oe_top_bottom_red_front + oe_middle_red_front
-            oriented_edges_list.append(sum_oe_red_front)
-
-            oe_white_sticker_red_front = 0
-            for edge in edges_top_bottom:
-                if any('W' in element for element in edge):
-                    if 'W' in edge[0]:
-                        oe_white_sticker_red_front += 1
-            for edge in edges_middle:
-                if any('W' in element for element in edge):
-                    if 'W' in edge[0]:
-                        oe_white_sticker_red_front += 1
-
-            oriented_edges_list.append(oe_white_sticker_red_front)
+            oriented_edges_list.append(oe_red_orange)
+            oriented_edges_list.append(oe_red_orange_white_only)
+            self.rotate('W')
+            self.rotate('W')
+            self.rotate('R')
             
         else:
-            print("Wrong orientation, ensure white center is on bottom and green center is on the front.")
+            print("Wrong orientation, ensure white center is on top and green center is on the front.")
 
-        return oriented_edges_list
+        #print(oriented_edges_list)
+        return oriented_edges_list #all oriented edges for yellow, green orientation; oriented edges with white sticker for the same orientation; all oriented edges for yellow, red orientation; oriented edges with white sticker for the same orientation
 
     def front_move(self):
         #move the front side clockwise
@@ -383,9 +375,14 @@ if __name__ == '__main__': #checks if the script is executed as the main program
     #cube.do('LBBBLBLBLBBBLLLBBBLL')
 
     #perm T
-    #cube.do(cube.process_sequence("U' B' U2 B2 R2 F2 R U2 R F2 L' F2 L2 U2 B D' F2 L2 F L' U"))
     #cube.process_sequence("RURRRUUURRRFRRUUURRRUUURURRRFFF")
-    #cube.do('UU')
-    #cube.visualize(layout='flat')
-    cube.get_oriented_edges()
-    #cube.visualize()
+
+    #edge orientation testing
+    #cube.do(cube.process_sequence("U' B' U2 B2 R2 F2 R U2 R F2 L' F2 L2 U2 B D' F2 L2 F L' U")) #[4,1,6,1]
+    #cube.do(cube.process_sequence("U' R2 B2 D' R2 U2 B2 D' R2 D2 R2 B L D' R2 B2 D' F2 D2 L")) #[8,4,6,2]
+    cube.do(cube.process_sequence("B2 L2 U2 B2 D' L2 B2 F2 U' F2 R2 D' F' D2 R2 F' U2 L D2 F U'")) #[8,4,8,3]
+    print(cube.get_oriented_edges())
+    #cube.visualize(layout='classic', x=8, y=8, save_fig_name='cube')
+
+
+
