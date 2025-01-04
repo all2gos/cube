@@ -153,6 +153,7 @@ class Cube:
 
         if save_fig_name:
             plt.savefig(f'{save_fig_name}.png', bbox_inches='tight', pad_inches=0)
+            plt.close()
 
 
     def rotate(self, front_site):
