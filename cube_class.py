@@ -24,7 +24,7 @@ class Cube:
         return '\n'.join([f"{self.cube[i]}" for i in range(6)])
 
 
-    def visualize(self, x, y, layout='classic', save_fig_name=''):
+    def visualize(self, x, y, layout='classic', save_fig_name='', orientation=None):
         """
         Visualizes the cube in one of two layouts:
         - 'classic': cube net (top, sides, bottom)
@@ -133,7 +133,7 @@ class Cube:
                 ['O', 'W', 'B', 'Y', 'G', 'R'],
                 ]
             
-            random_orientation = random.choice(flat_list)
+            random_orientation = random.choice(flat_list) if orientation==None else flat_list[orientation]
             x_offset = 0
             
             for face_color in random_orientation:
